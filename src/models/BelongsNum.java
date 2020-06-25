@@ -11,12 +11,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(
             name = "getAllBelongsNum",
-            query = "SELECT b FROM BelongsNum AS b ORDER BY b.belongs_id DESC"
+            query = "SELECT b FROM BelongsNum AS b ORDER BY b.belongs_id ASC"
             ),
-    @NamedQuery(
-            name = "getBelongsNum",
-            query = "SELECT b FROM BelongsNum AS b where b.belongs_id = :belongsNum"
-            )
 })
 
 @Entity
@@ -27,6 +23,7 @@ public class BelongsNum {
 
     @Column(name = "belongs_name", nullable = false)
     private String belongs_name;
+
 
     //getter setter
     public String getBelongs_id() {
@@ -44,6 +41,5 @@ public class BelongsNum {
     public void setBelongs_name(String belongs_name) {
         this.belongs_name = belongs_name;
     }
-
 
 }

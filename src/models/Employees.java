@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -26,12 +28,22 @@ import javax.persistence.Table;
             query = "SELECT COUNT(e) FROM Employees AS e WHERE e.code=:code"
             ),
     @NamedQuery(
-            name = "checkLogin",
-            query = "SELECT e FROM Employees AS e WHERE e.delete_flag=0"
+            name = "loginuser",
+            query = "SELECT e FROM Employees AS e WHERE e.code=:code AND e.delete_flag=0"
             ),
     @NamedQuery(
-            name = "searchEmployees",
-            query = "SELECT e FROM Employees AS e WHERE e.code=:code OR e.name_kanzi=:name OR e.name_kana=:name OR e.belongs_num=:belongs"
+            name = "search",
+            query = "SELECT e FROM Employees AS e WHERE (e.code=:code OR :code IS NULL) "
+                    + "AND ((e.name_kanzi LIKE :name OR :name IS NULL) OR (e.name_kana LIKE :name OR :name IS NULL)) "
+                    + "AND (e.belongs.belongs_id=:belongs_num OR :belongs_num IS NULL) "
+                    + "AND (:code IS NOT NULL OR :name IS NOT NULL OR :belongs_num IS NOT NULL) ORDER BY e.id DESC"
+            ),
+    @NamedQuery(
+            name = "searchCount",
+            query = "SELECT COUNT(e) FROM Employees AS e WHERE (e.code=:code OR :code IS NULL) "
+                    + "AND ((e.name_kanzi LIKE :name OR :name IS NULL) OR (e.name_kana LIKE :name OR :name IS NULL)) "
+                    + "AND (e.belongs.belongs_id=:belongs_num OR :belongs_num IS NULL) "
+                    + "AND (:code IS NOT NULL OR :name IS NOT NULL OR :belongs_num IS NOT NULL)"
             )
 })
 
@@ -66,8 +78,10 @@ public class Employees{
     @Column(name ="birthday_at", nullable = false)
     private Date birthday_at;
 
-    @Column(name = "belongs_num", nullable = false)
-    private String belongs_num;
+    @ManyToOne
+    @JoinColumn(name = "belongs_num", nullable = false)
+    private BelongsNum belongs;
+
 
     //getter setter
     public Long getId() {
@@ -142,13 +156,12 @@ public class Employees{
         this.birthday_at = birthday_at;
     }
 
-    public String getBelongs_num() {
-        return belongs_num;
+    public BelongsNum getBelongs() {
+        return belongs;
     }
 
-    public void setBelongs_num(String belongs_num) {
-        this.belongs_num = belongs_num;
+    public void setBelongs(BelongsNum belongs) {
+        this.belongs = belongs;
     }
-
 
 }

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(
             name = "getAllPassword",
-            query = "SELECT p FROM Password AS p ORDER BY p.password_id asc"
+            query = "SELECT p FROM Password AS p ORDER BY p.password_id desc"
             ),
     @NamedQuery(
             name = "checkPassword",

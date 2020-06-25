@@ -10,17 +10,17 @@
         <h2>従業員　一覧</h2>
 
         <%-- 検索フォーム --%>
-        <form name="search" action="SearchServlet">
-        <label >社員番号：</label>
-        <input type="text" name="code" value="${ search.code }" />&nbsp;&nbsp;
+        <form method="get" action="<c:url value='/employees/index' />" >
+        <label >従業員番号：</label>
+        <input type="text" name="search_code" value="${ search_code }" />&nbsp;&nbsp;
         <label>氏名：</label>
-        <input type="text" name="name" value="${ search.name }" />&nbsp;&nbsp;
+        <input type="text" name="search_name" value="${ search_name }" />&nbsp;&nbsp;
         <label>所属：</label>
-        <select name="belongs">
-            <option value="">未選択</option>
-            <option value="1">大阪第1</option>
-            <option value="2">大阪第2</option>
-            <option value="3">大阪第3</option>
+        <select name="search_belongs">
+            <option value="" <c:if test="${ search_belongs == null}">selected</c:if>>未選択</option>
+            <c:forEach var="belongsnum" items="${ belongsnum }" varStatus="status">
+                <option value="${ belongsnum.belongs_id }" <c:if test="${ search_belongs == belongsnum.belongs_id}">selected</c:if>><c:out value="${ belongsnum.belongs_name }" /></option>
+            </c:forEach>
         </select>&nbsp;&nbsp;&nbsp;
         <button type="submit">検索</button>
         </form>
@@ -30,22 +30,25 @@
         <table id="employee_list">
             <tbody>
                 <tr>
-                    <th>社員番号</th>
+                    <th>従業員番号</th>
                     <th>氏名</th>
                     <th>所属</th>
                     <th>操作</th>
                 </tr>
-                <c:forEach var="employee" items="${ employees }" varStatus="status">
+                <c:forEach var="employees" items="${ employees }" varStatus="status">
                     <tr class="row${ status.count%2 }">
-                        <td><c:out value="${ employee.code }" /></td>
-                        <td><c:out value="${ employee.name_kanzi }" /></td>
+                        <td><c:out value="${ employees.code }" /></td>
+                        <td><c:out value="${ employees.name_kanzi }" /></td>
+                        <td>
+                            <c:out value="${ employees.belongs.belongs_name }" />
+                        </td>
                         <td>
                             <c:choose>
-                                <c:when test="${ employee.delete_flag==1 }">
+                                <c:when test="${ employees.delete_flag==1 }">
                                     （削除済み）
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="<c:url value='/employees/show?id=${ employee.id }' />">詳細を表示</a>
+                                    <a href="<c:url value='/employees/show?id=${ employees.id }' />">詳細を表示</a>
                                 </c:otherwise>
                             </c:choose>
                         </td>
@@ -55,14 +58,14 @@
         </table>
 
         <div id="pagination">
-            （全 ${ enployees_count }件）<br />
+            （全 ${ employees_count }件）<br />
             <c:forEach var="i" begin="1" end="${ ((employees_count-1)/15)+1 }" step="1">
                 <c:choose>
                     <c:when test="${ i==page }">
                         <c:out value="${ i }" /> &nbsp;
                     </c:when>
                     <c:otherwise>
-                        <a href="<c:url value='/employees/index?page=${ i }' />"><c:out value="${ i }" /></a> &nbsp;
+                        <a href="<c:url value='/employees/index?page=${ i }&search_code=${ search_code }&search_name=${ search_name }&search_belongs=${ search_belongs }' />"><c:out value="${ i }" /></a> &nbsp;
                     </c:otherwise>
                 </c:choose>
             </c:forEach>

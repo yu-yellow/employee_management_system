@@ -11,20 +11,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.BelongsNum;
 import models.Employees;
 import utils.DBUtil;
 
 /**
- * Servlet implementation class SearchServlet
+ * Servlet implementation class EmployeesEditServlet
  */
-@WebServlet("/SearchServlet")
-public class SearchServlet extends HttpServlet {
+@WebServlet("/employees/edit")
+public class EmployeesEditServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchServlet() {
+    public EmployeesEditServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,30 +34,20 @@ public class SearchServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-
-        //検索内容の取得
-        String code = request.getParameter("code");
-        String name = request.getParameter("name");
-        String belongs = request.getParameter("belongs");
         EntityManager em = DBUtil.createEntityManager();
 
-        List<Employees> result = em.createNamedQuery("searchEmployees",Employees.class).getResultList();
+        Employees e = em.find(Employees.class, Long.parseLong(request.getParameter("id")));
+        List<BelongsNum> belongsnum = em.createNamedQuery("getAllBelongsNum", BelongsNum.class).getResultList();
 
         em.close();
 
-        request.setAttribute("result", result);
+        request.setAttribute("belongsnum", belongsnum);
+        request.setAttribute("employees", e);
+        request.setAttribute("_token", request.getSession().getId());
+        request.getSession().setAttribute("employees_id", e.getId());
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/employees/index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/employees/edit.jsp");
         rd.forward(request, response);
-    }
-
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        doGet(request, response);
     }
 
 }

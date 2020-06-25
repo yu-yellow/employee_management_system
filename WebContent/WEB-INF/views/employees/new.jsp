@@ -5,9 +5,8 @@
         <h2>従業員　新規登録ページ</h2>
 
         <form method="POST" action="<c:url value='/employees/create' />">
-            <label for="code">社員番号</label><br />
-            <input type="text" name="code" value="${employees.code}" />
             <c:import url="_form.jsp" />
+            <button type="submit">登録</button>
         </form>
 
         <p><a href="<c:url value='/' />">戻る</a></p>

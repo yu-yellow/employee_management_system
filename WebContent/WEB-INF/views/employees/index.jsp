@@ -70,6 +70,7 @@
                 </c:choose>
             </c:forEach>
         </div>
+        <p><a href="<c:url value='/' />">戻る</a></p>
 
     </c:param>
 </c:import>

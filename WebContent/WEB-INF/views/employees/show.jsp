@@ -5,7 +5,7 @@
     <c:param name="content">
         <c:choose>
             <c:when test="${employees != null}">
-                <h2> ${employees.name_kanzi} の従業員情報　詳細ページ</h2>
+                <h2>【${employees.name_kanzi}】の従業員情報　詳細ページ</h2>
 
                 <table>
                     <tbody>
@@ -26,16 +26,24 @@
                             <td><c:out value="${ employees.belongs.belongs_name }" /></td>
                         </tr>
                         <tr>
+                            <th>勤務先</th>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${working!=null}"><c:out value="${ working.company.name }" /></c:when>
+                                    <c:otherwise>待機中</c:otherwise>
+                                </c:choose>
+                                &nbsp;&nbsp;&nbsp;(<a href="<c:url value='/working/workindex?id=${employees.id}' />">現場履歴</a>)</td>
+                        <tr>
                             <th>生年月日</th>
-                            <td><c:out value="${employees.birthday_at}" /></td>
+                            <td><fmt:formatDate value="${employees.birthday_at}" pattern="yyyy/MM/dd" /></td>
                         </tr>
                         <tr>
                             <th>入社日</th>
-                            <td><c:out value="${employees.join_at}" /></td>
+                            <td><fmt:formatDate value="${employees.join_at}" pattern="yyyy/MM/dd" /></td>
                         </tr>
                         <tr>
                             <th>退社日</th>
-                            <td><c:out value="${employees.leave_at}" /></td>
+                            <td><fmt:formatDate value="${employees.leave_at}" pattern="yyyy/MM/dd" /></td>
                         </tr>
                         <tr>
                             <th>権限</th>
@@ -49,14 +57,14 @@
                         <tr>
                             <th>登録日時</th>
                             <td>
-                                <fmt:formatDate value="${report.create_at}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                <fmt:formatDate value="${report.create_at}" pattern="yyyy/MM/dd HH:mm:ss" />
                                 &nbsp;&nbsp;(<c:out value="${report.create_name}" />)
                             </td>
                         </tr>
                         <tr>
                             <th>更新日時</th>
                             <td>
-                                <fmt:formatDate value="${report.updated_at}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                <fmt:formatDate value="${report.updated_at}" pattern="yyyy/MM/dd HH:mm:ss" />
                                 &nbsp;&nbsp;(<c:out value="${report.report_name}" />)
                             </td>
                         </tr>

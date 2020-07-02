@@ -63,6 +63,8 @@ th {
 td {
     width: 66%;
     padding: 10px 2%;
+    white-space: nowrap;
+
 }
 
 button {

@@ -6,6 +6,8 @@
 		<class>models.BelongsNum</class>
 		<class>models.Report</class>
 		<class>models.Password</class>
+		<class>models.Workingplace</class>
+		<class>models.Company</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/employee_management_system?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8"/>

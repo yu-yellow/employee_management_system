@@ -22,7 +22,9 @@
         <option value="${ company.id }" <c:if test="${ working.company.id == company.id}">selected</c:if>><c:out value="${ company.name }" /></option>
     </c:forEach>
 </select>&nbsp;&nbsp;&nbsp;
-<a href="<c:url value='/data/new?id=${id}' />">会社名登録</a>
+<c:if test="${working.id == null}">
+    <a href="<c:url value='/data/new?id=${id}' />">会社名登録</a>
+</c:if>
 <br /><br />
 
 <label for="field_manager">現場責任者</label><br />

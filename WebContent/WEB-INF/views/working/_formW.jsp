@@ -10,12 +10,19 @@
     </div>
 </c:if>
 
+<c:if test="${flush != null}">
+    <div id="flush_success">
+        <c:out value="${flush}"></c:out>
+    </div>
+</c:if>
+
 <label for="company_id">勤務先会社名</label><br />
 <select name="company_id">
     <c:forEach var="company" items="${ company }" varStatus="status">
         <option value="${ company.id }" <c:if test="${ working.company.id == company.id}">selected</c:if>><c:out value="${ company.name }" /></option>
     </c:forEach>
-</select>
+</select>&nbsp;&nbsp;&nbsp;
+<a href="<c:url value='/data/new?id=${id}' />">会社名登録</a>
 <br /><br />
 
 <label for="field_manager">現場責任者</label><br />

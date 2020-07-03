@@ -13,7 +13,16 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(
             name = "getCompany",
-            query = "SELECT c FROM Company AS c ORDER BY c.id ASC")
+            query = "SELECT c FROM Company AS c ORDER BY c.id ASC"
+            ),
+    @NamedQuery(
+            name = "checkName",
+            query = "SELECT COUNT(c) FROM Company AS c WHERE c.name=:name"
+            ),
+    @NamedQuery(
+            name = "checkAddress",
+            query = "SELECT COUNT(c) FROM Company AS c WHERE c.address=:address"
+            )
 })
 
 @Entity

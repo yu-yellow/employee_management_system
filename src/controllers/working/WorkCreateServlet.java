@@ -60,16 +60,14 @@ public class WorkCreateServlet extends HttpServlet {
             Time open = new Time(System.currentTimeMillis());
             String op_str = request.getParameter("open");
             if(op_str != null && !op_str.equals("")) {
-                open = Time.valueOf(LocalTime.parse(request.getParameter("open"),
-                                                     DateTimeFormatter.ofPattern("HH:mm")));
+                open = Time.valueOf(LocalTime.parse(request.getParameter("open"),DateTimeFormatter.ofPattern("HH:mm")));
                 w.setOpen(open);
             }
 
             Time close = new Time(System.currentTimeMillis());
             String cl_str = request.getParameter("close");
             if(cl_str != null && !cl_str.equals("")) {
-                close = Time.valueOf(LocalTime.parse(request.getParameter("close"),
-                                                      DateTimeFormatter.ofPattern("HH:mm")));
+                close = Time.valueOf(LocalTime.parse(request.getParameter("close"),DateTimeFormatter.ofPattern("HH:mm")));
                 w.setClose(close);
             }
 
@@ -108,11 +106,8 @@ public class WorkCreateServlet extends HttpServlet {
                 em.close();
                 request.getSession().setAttribute("flush", "登録が完了しました。");
 
-                request.setAttribute("id", request.getParameter("id"));
                 response.sendRedirect(request.getContextPath() + "/working/workindex?id=" + w.getEmployee().getId());
             }
         }
-
     }
-
 }
